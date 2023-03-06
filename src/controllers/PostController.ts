@@ -3,6 +3,7 @@ import {
   Response as ExpressResponse,
 } from 'express';
 import PostDTO from '../dtos/PostDTO';
+import { MissingFieldError } from '../errors/app.errors';
 import { getValidObjectId } from '../helpers/helpers';
 import PostRepository from '../repositories/PostRepository';
 
@@ -33,7 +34,7 @@ export default class PostController {
 
   public async getById(req: ExpressRequest, res: ExpressResponse) {
     const { id } = req.params;
-    if (!id) throw new Error('Erreur');
+    if (!id) throw new MissingFieldError('id');
     const post = await this.postRepository.findById(getValidObjectId(id));
     res.send(post);
   }
@@ -46,7 +47,7 @@ export default class PostController {
 
   public async update(req: ExpressRequest, res: ExpressResponse) {
     const { id } = req.params;
-    if (!id) throw new Error('Erreur');
+    if (!id) throw new MissingFieldError('id');
     const postDTO = new PostDTO(req.body);
     const post = this.postRepository.update(getValidObjectId(id), postDTO);
     res.send(post);
@@ -54,7 +55,7 @@ export default class PostController {
 
   public async delete(req: ExpressRequest, res: ExpressResponse) {
     const { id } = req.params;
-    if (!id) throw new Error('Erreur');
+    if (!id) throw new MissingFieldError('id');
     await this.postRepository.delete(getValidObjectId(id));
     res.sendStatus(204);
   }

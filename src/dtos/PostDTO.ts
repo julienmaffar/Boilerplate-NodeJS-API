@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { FieldValidationError } from '../errors/app.errors';
 import { PostModelType } from '../models/PostModel';
 
 type PostDTOType = {
@@ -28,7 +29,8 @@ export default class PostDTO {
     });
 
     const validation = schema.validate(data);
-    if (validation.error) throw validation.error;
+    if (validation.error)
+      throw new FieldValidationError(validation.error.message);
 
     this.title = data.title;
     this.content = data.content;
