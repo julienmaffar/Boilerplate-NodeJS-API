@@ -2,9 +2,11 @@ import { Router } from 'express';
 import { PostRoutes } from '../contants';
 import PostController from '../controllers/PostController';
 import asyncWrapper from '../helpers/asyncWrapper';
+import { configurationStorage } from '../middlewares/storage';
 
 const router = Router();
 const postController = new PostController();
+const multer = configurationStorage();
 
 router.get(
   PostRoutes.ALL,
@@ -16,6 +18,7 @@ router.get(
 );
 router.post(
   PostRoutes.CREATE,
+  multer.single(PostRoutes.MULTER_CREATE_FIELD),
   asyncWrapper(postController.create.bind(postController)),
 );
 router.put(

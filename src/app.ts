@@ -5,6 +5,7 @@ import routes from './routes/routes';
 import app from './server';
 import db from './Database';
 import errorHandler from './errors/error.handler';
+import { AppConfig } from './contants';
 
 const bootstrap = async () => {
   app.disable('x-powered-by');
@@ -26,9 +27,14 @@ const bootstrap = async () => {
   app.use(express.urlencoded({ extended: true }));
 
   /**
+   * Host static uploads directory
+   */
+  app.use('/', express.static(AppConfig.MULTER_FOLDER));
+
+  /**
    * Configure routes
    */
-  app.use('/api', routes);
+  app.use(AppConfig.API_PATH, routes);
 
   /**
    * Configure error handler

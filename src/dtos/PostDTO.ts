@@ -6,6 +6,7 @@ type PostDTOType = {
   title: string;
   content: string;
   author: string;
+  picture: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -17,6 +18,8 @@ export default class PostDTO {
 
   author: string;
 
+  picture: string;
+
   createdAt: Date;
 
   updatedAt: Date;
@@ -26,6 +29,7 @@ export default class PostDTO {
       title: Joi.string().min(6).required(),
       content: Joi.string().min(6).required(),
       author: Joi.string().required(),
+      picture: Joi.string().required(),
     });
 
     const validation = schema.validate(data);
@@ -35,6 +39,7 @@ export default class PostDTO {
     this.title = data.title;
     this.content = data.content;
     this.author = data.author;
+    this.picture = data.picture;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
   }
@@ -48,6 +53,7 @@ export default class PostDTO {
       title: this.title,
       content: this.content,
       author: this.author,
+      picture: this.picture,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };

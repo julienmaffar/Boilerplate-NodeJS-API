@@ -4,6 +4,7 @@ export type PostModelType = {
   title: string;
   content: string;
   author: string;
+  picture: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -22,6 +23,10 @@ const postSchema = new Schema(
       required: true,
     },
     author: {
+      type: String,
+      required: true,
+    },
+    picture: {
       type: String,
       required: true,
     },

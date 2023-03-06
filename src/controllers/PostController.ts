@@ -40,7 +40,8 @@ export default class PostController {
   }
 
   public async create(req: ExpressRequest, res: ExpressResponse) {
-    const postDTO = new PostDTO(req.body);
+    if (!req.file) throw new MissingFieldError('picture');
+    const postDTO = new PostDTO({ ...req.body, picture: req.file.path });
     await this.postRepository.create(postDTO.toPost());
     res.sendStatus(201);
   }
