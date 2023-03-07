@@ -4,7 +4,11 @@ import { uuid } from 'uuidv4';
 import { UnauthorizedError } from '../errors/app.errors';
 
 const storage = multer.diskStorage({
-  destination: (_, __, callback) => {
+  destination: (
+    _: ExpressRequest,
+    __: Express.Multer.File,
+    callback: CallableFunction,
+  ) => {
     callback(null, 'uploads');
   },
   filename: (_, file, callback) => {
