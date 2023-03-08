@@ -2,8 +2,9 @@ import {
   Request as ExpressRequest,
   Response as ExpressResponse,
 } from 'express';
+import CommentDTO from '../dtos/CommentDTO';
 import PostDTO from '../dtos/PostDTO';
-import { MissingFieldError } from '../errors/app.errors';
+import { MissingFieldError, NotFoundError } from '../errors/app.errors';
 import { getValidObjectId } from '../helpers/helpers';
 import PostRepository from '../repositories/PostRepository';
 
@@ -36,6 +37,7 @@ export default class PostController {
     const { id } = req.params;
     if (!id) throw new MissingFieldError('id');
     const post = await this.postRepository.findById(getValidObjectId(id));
+    if (!post) throw new NotFoundError('Post is not found');
     res.send(post);
   }
 
@@ -58,6 +60,33 @@ export default class PostController {
     const { id } = req.params;
     if (!id) throw new MissingFieldError('id');
     await this.postRepository.delete(getValidObjectId(id));
+    res.sendStatus(204);
+  }
+
+  public async createComments(req: ExpressRequest, res: ExpressResponse) {
+    const { id } = req.params;
+    if (!id) throw new MissingFieldError('id');
+    const post = await this.postRepository.findById(getValidObjectId(id));
+    if (!post) throw new NotFoundError('Post is not found');
+    const commentDTO = new CommentDTO(req.body);
+    await this.postRepository.createComment(
+      getValidObjectId(id),
+      post,
+      commentDTO.toComment(),
+    );
+    res.sendStatus(201);
+  }
+
+  public async deleteComment(req: ExpressRequest, res: ExpressResponse) {
+    const { id, commentId } = req.params;
+    if (!id || !commentId) throw new MissingFieldError('id or commentId');
+    const post = await this.postRepository.findById(getValidObjectId(id));
+    if (!post) throw new NotFoundError('Post is not found');
+    await this.postRepository.deleteComment(
+      getValidObjectId(id),
+      getValidObjectId(commentId),
+      post,
+    );
     res.sendStatus(204);
   }
 }

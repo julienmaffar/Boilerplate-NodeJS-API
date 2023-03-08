@@ -44,10 +44,6 @@ export default class PostDTO {
     this.updatedAt = data.updatedAt;
   }
 
-  /**
-   * Return structure of Post model
-   * @returns PostModelType
-   */
   toPost(): PostModelType {
     return {
       title: this.title,

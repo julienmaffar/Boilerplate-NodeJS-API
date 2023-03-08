@@ -21,6 +21,10 @@ router.post(
   multer.single(PostRoutes.MULTER_CREATE_FIELD),
   asyncWrapper(postController.create.bind(postController)),
 );
+router.post(
+  PostRoutes.CREATE_COMMENT,
+  asyncWrapper(postController.createComments.bind(postController)),
+);
 router.put(
   PostRoutes.UPDATE,
   asyncWrapper(postController.update.bind(postController)),
@@ -28,6 +32,10 @@ router.put(
 router.delete(
   PostRoutes.DELETE,
   asyncWrapper(postController.delete.bind(postController)),
+);
+router.delete(
+  PostRoutes.DELETE_COMMENT,
+  asyncWrapper(postController.deleteComment.bind(postController)),
 );
 
 export default router;

@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { Schema, model } from 'mongoose';
 
 export type PostModelType = {
@@ -7,6 +8,7 @@ export type PostModelType = {
   picture: string;
   createdAt: Date;
   updatedAt: Date;
+  comments?: [{ _id: ObjectId; title: string; content: string }];
 };
 
 /**
@@ -30,6 +32,12 @@ const postSchema = new Schema(
       type: String,
       required: true,
     },
+    comments: [
+      {
+        title: String,
+        content: String,
+      },
+    ],
   },
   {
     timestamps: true,

@@ -5,6 +5,8 @@ export enum PostRoutes {
   CREATE = '/',
   UPDATE = '/:id',
   DELETE = '/:id',
+  CREATE_COMMENT = '/:id/comments',
+  DELETE_COMMENT = '/:id/comments/:commentId',
   MULTER_CREATE_FIELD = 'picture',
 }
 
