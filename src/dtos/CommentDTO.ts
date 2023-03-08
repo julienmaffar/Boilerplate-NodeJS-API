@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { FieldValidationError } from '../errors/app.errors';
 
-type CommentDTOType = {
+export type CommentDTOType = {
   title: string;
   content: string;
 };

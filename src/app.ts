@@ -49,3 +49,5 @@ bootstrap()
   .catch((error) => {
     logger.error('Unknown error. ' + error.message);
   });
+
+export default app;

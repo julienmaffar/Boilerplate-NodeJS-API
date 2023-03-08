@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { Model } from 'mongoose';
+import { Model, UpdateQuery } from 'mongoose';
 import { paginate, Pagination } from '../helpers/pagination';
 
 type Select = string[];
@@ -25,8 +25,8 @@ export default class BaseRepository<T> implements BaseRepositoryType<T> {
   }
 
   async findAll(
-    limit: number = 10,
-    page: number = 0,
+    limit = 10,
+    page = 0,
     select?: Select,
     sort?: string,
   ): Promise<Pagination<T>> {
@@ -55,7 +55,7 @@ export default class BaseRepository<T> implements BaseRepositoryType<T> {
 
   async update(id: ObjectId, item: T): Promise<T> {
     return (await this.model
-      .findByIdAndUpdate(id, item as any, { new: true })
+      .findByIdAndUpdate(id, item as UpdateQuery<T>, { new: true })
       .exec()) as T;
   }
 

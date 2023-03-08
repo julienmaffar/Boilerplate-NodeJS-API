@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import { CommentDTOType } from '../dtos/CommentDTO';
 import { Post } from '../models/PostModel';
 import { PostModelType } from '../models/PostModel';
 import BaseRepository from './BaseRepository';
@@ -11,7 +12,7 @@ export default class PostRepository extends BaseRepository<PostModelType> {
   async createComment(
     id: ObjectId,
     postData: PostModelType,
-    comment: any,
+    comment: CommentDTOType,
   ): Promise<PostModelType> {
     return (await Post.findByIdAndUpdate(
       id,
