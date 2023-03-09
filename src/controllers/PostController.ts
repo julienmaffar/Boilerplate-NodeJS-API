@@ -59,7 +59,7 @@ export default class PostController {
   public async delete(req: ExpressRequest, res: ExpressResponse) {
     const { id } = req.params;
     if (!id) throw new MissingFieldError('id');
-    await this.postRepository.delete(getValidObjectId(id));
+    await this.postRepository.deleteById(getValidObjectId(id));
     res.sendStatus(204);
   }
 

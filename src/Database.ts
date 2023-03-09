@@ -24,6 +24,8 @@ class Database {
   }
 
   private getConnectionString() {
+    const env = process.env.NODE_ENV;
+    if (env === 'test') this.dbName += '_test';
     return `mongodb://${this.host}/${this.dbName}`;
   }
 

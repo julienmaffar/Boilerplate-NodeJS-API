@@ -1,5 +1,5 @@
 import { ObjectId } from 'mongodb';
-import { Model, UpdateQuery } from 'mongoose';
+import { FilterQuery, Model, UpdateQuery } from 'mongoose';
 import { paginate, Pagination } from '../helpers/pagination';
 
 type Select = string[];
@@ -12,9 +12,10 @@ export type BaseRepositoryType<T> = {
     sort?: string,
   ): Promise<Pagination<T>>;
   findById(id: ObjectId, select?: Select): Promise<T>;
-  create(item: Partial<T>): Promise<void>;
+  create(item: Partial<T>): Promise<T>;
   update(id: ObjectId, item: T): Promise<T>;
-  delete(id: ObjectId): Promise<void>;
+  deleteById(id: ObjectId): Promise<void>;
+  deleteByFilter(filter: FilterQuery<T>, multi: boolean): Promise<void>;
 };
 
 export default class BaseRepository<T> implements BaseRepositoryType<T> {
@@ -49,8 +50,8 @@ export default class BaseRepository<T> implements BaseRepositoryType<T> {
     return (await this.model.findById(id, select).exec()) as T;
   }
 
-  async create(item: T): Promise<void> {
-    await this.model.create(item);
+  async create(item: T): Promise<T> {
+    return (await this.model.create(item)) as T;
   }
 
   async update(id: ObjectId, item: T): Promise<T> {
@@ -59,7 +60,15 @@ export default class BaseRepository<T> implements BaseRepositoryType<T> {
       .exec()) as T;
   }
 
-  async delete(id: ObjectId): Promise<void> {
+  async deleteById(id: ObjectId): Promise<void> {
     await this.model.findByIdAndDelete(id).exec();
+  }
+
+  async deleteByFilter(filter: FilterQuery<T>, multi: boolean): Promise<void> {
+    if (multi) {
+      await this.model.deleteMany(filter);
+    } else {
+      await this.model.deleteOne(filter);
+    }
   }
 }

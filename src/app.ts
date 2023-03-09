@@ -8,6 +8,13 @@ import errorHandler from './errors/error.handler';
 import { AppConfig } from './contants';
 
 const bootstrap = async () => {
+  if (process.env.NODE_ENV === 'test') {
+    app.use((req, _res, next) => {
+      logger.debug(`[${req.method}] ${req.hostname}${req.url}`);
+      next();
+    });
+  }
+
   app.disable('x-powered-by');
 
   /**
