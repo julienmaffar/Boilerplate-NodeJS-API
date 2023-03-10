@@ -5,3 +5,4 @@ uploads
 .webpack
 build
 coverage
+data

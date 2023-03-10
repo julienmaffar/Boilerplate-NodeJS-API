@@ -17,7 +17,7 @@ class Database {
   constructor(options: ConnectOptions = {}) {
     this.user = process.env.DB_USER || '';
     this.password = process.env.DB_PASSWORD || '';
-    this.host = process.env.DB_HOST || 'localhost:27017';
+    this.host = process.env.DB_HOST || 'mongo:27017';
     this.dbName = process.env.DB_NAME || 'database';
     this.options = options;
     this.db = mongoose;
